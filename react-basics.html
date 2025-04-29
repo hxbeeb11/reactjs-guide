@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Development Guide</title>
+    <style>
+        :root {
+            --primary-color: #61dafb;
+            --secondary-color: #282c34;
+            --text-color: #333;
+            --light-bg: #f5f8fa;
+            --code-bg: #f1f1f1;
+            --border-color: #e1e4e8;
+            --accent-color: #5d36c9;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent-color);
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .concept {
+            background-color: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--light-bg);
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        
+        .highlight {
+            background-color: rgba(97, 218, 251, 0.1);
+            padding: 2px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .divider {
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+        }
+        
+        /* Navigation styles */
+        .navigation {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+        
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .nav-item.active::after {
+            content: '✓';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>React Development Guide</h1>
+        <p>A comprehensive guide to learning and mastering React</p>
+    </header>
+
+    <div class="navigation">
+        <h3>Guide Navigation</h3>
+        <div class="nav-container">
+            <a href="react-basics.html" class="nav-item active">
+                Level 1: React Basics
+            </a>
+            <a href="react-intermediate.html" class="nav-item">
+                Level 2: Intermediate React
+            </a>
+            <a href="react-advanced.html" class="nav-item">
+                Level 3: Advanced React
+            </a>
+            <a href="react-ecosystem.html" class="nav-item">
+                Level 4: React Ecosystem
+            </a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Level 1: React Basics</h2>
+        
+        <div class="section">
+            <h3>1. Introduction to React</h3>
+            
+            <h4>Definition:</h4>
+            <p>React is an open-source JavaScript library used for building dynamic, fast, and interactive user interfaces, primarily for single-page applications (SPAs). It focuses on creating reusable UI components.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>React allows developers to build large, complex applications where the UI updates efficiently as data changes. It's lightweight, component-based, and backed by a strong ecosystem (like Redux, React Router, etc.), making it ideal for scalable projects.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>React works by maintaining a lightweight representation of the DOM in memory (called the Virtual DOM). When a change occurs, React updates only the parts of the real DOM that actually changed — leading to faster UI updates.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import React from 'react';
+  
+function App() {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;; 
+} 
+  
+export default App;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>2. Setting Up Environment</h3>
+            
+            <h4>Definition:</h4>
+            <p>Setting up the environment means installing all the necessary tools (Node.js, npm, React, a code editor) to start developing a React application.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>A correct setup ensures the project runs smoothly, supports modern JavaScript (ES6+), and allows integration with development tools (like hot reloading, linters, etc.)</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>We install Node.js (includes npm - Node Package Manager) and then use Create React App (CRA), a command-line tool to bootstrap a ready-to-use React project.</p>
+                <p>Node.js: <a href="https://nodejs.org/en/download" target="_blank">https://nodejs.org/en/download</a></p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>npx create-react-app my-app
+cd my-app
+npm start</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>3. JSX (JavaScript XML)</h3>
+            
+            <h4>Definition:</h4>
+            <p>JSX is a syntax extension for JavaScript that allows us to write HTML-like code inside JavaScript files. React components are typically written using JSX.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>JSX makes code easier to read and write by visually resembling the final HTML structure while still having the power of JavaScript embedded.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>Browsers don't understand JSX directly — during the build process, JSX gets transpiled into regular JavaScript using tools like Babel.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>// This is JSX code:
+const element = &lt;h1&gt;Hello, JSX!&lt;/h1&gt;;
+
+// This transpiles to JavaScript:
+const element = React.createElement('h1', null, 'Hello, JSX!');</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>4. Components (Function and Class)</h3>
+            
+            <h4>Definition:</h4>
+            <p>Components are the building blocks of a React app. They can be either Functional Components or Class Components and are reusable, independent pieces of UI.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Breaking a UI into smaller, manageable components improves reusability, readability, and maintainability.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <ul>
+                    <li><strong>Functional Components:</strong> Simple JavaScript functions that return JSX.</li>
+                    <li><strong>Class Components:</strong> ES6 classes that extend React.Component and can hold their own state.</li>
+                </ul>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>// Functional Component 
+function Welcome() { 
+  return &lt;h1&gt;Welcome!&lt;/h1&gt;; 
+} 
+
+// Class Component 
+class WelcomeClass extends React.Component { 
+  render() { 
+    return &lt;h1&gt;Welcome from Class!&lt;/h1&gt;; 
+  } 
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>5. Props (Properties)</h3>
+            
+            <h4>Definition:</h4>
+            <p>Props are inputs to a React component. They are passed as attributes from a parent component to a child and are read-only.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Props allow components to be dynamic and customizable without changing their internal logic.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>Think of props like function parameters. When using a component, you pass values (props) into it.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>function Greet(props) { 
+  return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;; 
+} 
+  
+// Usage 
+&lt;Greet name="John" /&gt;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>6. State Management with useState</h3>
+            
+            <h4>Definition:</h4>
+            <p>useState is a React Hook that allows functional components to create, store, and update internal state variables. It gives components the ability to dynamically change their UI based on user interactions or other events.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Without useState, functional components would be static — no interaction, no dynamic changes. With useState, your app can:</p>
+            <ul>
+                <li>Track user inputs.</li>
+                <li>Update the UI when something changes (like button clicks, form entries, etc.).</li>
+                <li>Manage dynamic values easily without needing a class component.</li>
+            </ul>
+            <p>It makes functional components just as powerful (or even more!) than class components.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>Think of useState like a special variable that remembers values between function calls.</p>
+                <ul>
+                    <li>When you call useState(initialValue), it gives you two things:
+                        <ul>
+                            <li>A state variable (current value).</li>
+                            <li>A setter function (to update the value).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>When you call the setter, React:</p>
+                <ul>
+                    <li>Updates the value.</li>
+                    <li>Renders the component again with the new value.</li>
+                </ul>
+                <p><span class="emoji">📦</span> <strong>Analogy:</strong> Imagine a box (state) where you keep a counter value. Whenever you update the counter (setter), the box automatically updates the display (UI) without you manually reloading anything.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import { useState } from 'react'; 
+  
+function Counter() { 
+  const [count, setCount] = useState(0); // Initial value = 0 
+  
+  function increment() { 
+    setCount(count + 1); // Update state 
+  } 
+  return ( 
+    &lt;div&gt; 
+      &lt;p&gt;Clicked {count} times&lt;/p&gt; 
+      &lt;button onClick={increment}&gt;Click Me&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} 
+export default Counter;</code></pre>
+            
+            <h4>State in React:</h4>
+            <p><strong>Definition:</strong> State is a built-in object that stores property values that belong to the component. State changes trigger UI updates.</p>
+            <p><strong>Why is it Important:</strong> State is essential for dynamic, interactive applications where the UI needs to change based on user input, server responses, etc.</p>
+            <p><strong>How it Works:</strong> State is managed inside the component using the useState Hook (in functional components) or inside this.state (in class components).</p>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import { useState } from 'react'; 
+  
+function Counter() { 
+  const [count, setCount] = useState(0); 
+  
+  return ( 
+    &lt;div&gt; 
+      &lt;p&gt;Clicked {count} times&lt;/p&gt; 
+      &lt;button onClick={() => setCount(count + 1)}&gt;Click me&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+}</code></pre>
+            
+            <h4>Difference between "State in React" and "State Management with useState"</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Meaning</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>State</td>
+                            <td>General idea of storing dynamic, changeable data inside a component.</td>
+                            <td>"User's login status", "Input field text"</td>
+                        </tr>
+                        <tr>
+                            <td>State Management with useState</td>
+                            <td>A React Hook used to create and update state inside functional components.</td>
+                            <td><code>const [count, setCount] = useState(0);</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>7. Handling Events</h3>
+            
+            <h4>Definition:</h4>
+            <p>Event handling in React is similar to handling events in DOM elements but with some syntactic differences. React events are named using camelCase.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Interactivity in a React app is impossible without handling user events like clicks, typing, submitting forms, etc.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>We attach event handlers to JSX elements, and React manages event delegation under the hood.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>function Button() { 
+  function handleClick() { 
+    alert('Button Clicked!'); 
+  } 
+  
+  return &lt;button onClick={handleClick}&gt;Click Me&lt;/button&gt;; 
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>8. Conditional Rendering Techniques</h3>
+            
+            <h4>Definition:</h4>
+            <p>Conditional rendering in React means showing different UI elements or components based on certain conditions (like if-else logic for the UI).</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>In real-world apps, UIs often change depending on user actions, authentication status, API responses, etc. Conditional rendering allows you to create dynamic and interactive user experiences.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>You can use JavaScript conditional logic directly inside JSX to decide what to display.</p>
+                <p>Common techniques:</p>
+                <ul>
+                    <li>if / else</li>
+                    <li>Ternary operator (condition ? true : false)</li>
+                    <li>Logical && (short-circuiting)</li>
+                </ul>
+            </div>
+            
+            <h4>Code Examples:</h4>
+            <pre><code>// Using if-else outside JSX:
+function Greeting({ isLoggedIn }) { 
+  if (isLoggedIn) { 
+    return &lt;h1&gt;Welcome back!&lt;/h1&gt;; 
+  } 
+  return &lt;h1&gt;Please sign up.&lt;/h1&gt;; 
+}</code></pre>
+
+            <pre><code>// Using Ternary inside JSX:
+function Greeting({ isLoggedIn }) { 
+  return ( 
+    &lt;h1&gt;{isLoggedIn ? 'Welcome back!' : 'Please sign up.'}&lt;/h1&gt; 
+  ); 
+}</code></pre>
+
+            <pre><code>// Using Logical && (Show only if condition true):
+function Notification({ unreadMessages }) { 
+  return ( 
+    &lt;div&gt; 
+      {unreadMessages.length > 0 &&  
+        &lt;h2&gt;You have {unreadMessages.length} unread messages.&lt;/h2&gt; 
+      } 
+    &lt;/div&gt; 
+  ); 
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>9. List Rendering using .map()</h3>
+            
+            <h4>Definition:</h4>
+            <p>List rendering in React means creating a list of elements/components dynamically by iterating over an array.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Most real apps involve dynamic data — like lists of products, users, posts, etc. .map() helps display multiple items from a dynamic data source cleanly.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <ul>
+                    <li>Take an array.</li>
+                    <li>Use .map() to loop through each item.</li>
+                    <li>Return a new React element for each item.</li>
+                </ul>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>function NameList() { 
+  const names = ['Alice', 'Bob', 'Charlie']; 
+  
+  return ( 
+    &lt;ul&gt; 
+      {names.map(name => &lt;li key={name}&gt;{name}&lt;/li&gt;)} 
+    &lt;/ul&gt; 
+  ); 
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>10. Keys in Lists</h3>
+            
+            <h4>Definition:</h4>
+            <p>Keys are special props you need to assign when rendering lists in React. They help React identify which items have changed, are added, or removed.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Without keys, React can't efficiently re-render lists. Proper keys lead to better performance and bug-free rendering.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>Keys should be:</p>
+                <ul>
+                    <li>Unique among siblings.</li>
+                    <li>Stable (doesn't change between renders).</li>
+                </ul>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>const items = ['Apple', 'Banana', 'Cherry']; 
+  
+return ( 
+  &lt;ul&gt; 
+    {items.map(item => &lt;li key={item}&gt;{item}&lt;/li&gt;)} 
+  &lt;/ul&gt; 
+);</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>11. Basic Form Handling</h3>
+            
+            <h4>Definition:</h4>
+            <p>Form handling in React means capturing user input and updating the component's state based on that input.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Forms are the backbone of user interaction — login forms, registration, settings, etc. Controlled components (React forms) make it easy to track input values and validate them.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <p>In a controlled component:</p>
+                <ul>
+                    <li>The input's value is linked to the component's state.</li>
+                    <li>Changes to the input are handled by updating the state with onChange.</li>
+                </ul>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import { useState } from 'react'; 
+  
+function SimpleForm() { 
+  const [name, setName] = useState(''); 
+  
+  function handleChange(event) { 
+    setName(event.target.value); 
+  } 
+  
+  function handleSubmit(event) { 
+    event.preventDefault(); 
+    alert(`Submitted Name: ${name}`); 
+  } 
+  
+  return ( 
+    &lt;form onSubmit={handleSubmit}&gt; 
+      &lt;input type="text" value={name} onChange={handleChange} /&gt; 
+      &lt;button type="submit"&gt;Submit&lt;/button&gt; 
+    &lt;/form&gt; 
+  ); 
+}</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>12. Inline and External Styling</h3>
+            
+            <h4>Definition:</h4>
+            <p>React allows you to style components inline (inside JSX) or by using external CSS files.</p>
+            
+            <h4>Why is it Important:</h4>
+            <p>Good styling improves UX and separates presentation from logic. Understanding both methods is crucial for professional UI development.</p>
+            
+            <h4>How it Works (Concept Explanation):</h4>
+            <div class="concept">
+                <ul>
+                    <li>Inline styling: Pass a style object directly inside JSX.</li>
+                    <li>External styling: Import a CSS file and use class names.</li>
+                </ul>
+            </div>
+            
+            <h4>Code Examples:</h4>
+            <pre><code>// Inline styling:
+const headingStyle = { 
+  color: 'blue', 
+  fontSize: '24px' 
+}; 
+  
+function InlineExample() { 
+  return &lt;h1 style={headingStyle}&gt;Hello World&lt;/h1&gt;; 
+}</code></pre>
+
+            <pre><code>// External styling:
+/* styles.css */  
+.title {  
+  color: red;  
+  font-size: 24px;  
+} 
+
+// Example:
+import './styles.css';   // ✅ External CSS file imported 
+  
+function ExternalExample() { 
+  return ( 
+    &lt;h1 className="title"&gt;Hello World&lt;/h1&gt;  // ✅ Applying a className from External CSS 
+  ); 
+}</code></pre>
+
+            <pre><code>// Both Inline + External:
+import './styles.css';   
+  
+function MixedExample() { 
+  return ( 
+    &lt;h1  
+      className="title"  
+      style={{ color: 'blue', fontSize: '32px' }}  // ✅ Inline Style 
+    &gt; 
+      Hello World 
+    &lt;/h1&gt; 
+  ); 
+}</code></pre>
+        </div>
+        
+        <div class="divider"></div>
+        
+    </div>
+</body>
+</html> 

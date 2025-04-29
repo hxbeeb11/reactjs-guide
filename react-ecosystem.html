@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Development Guide</title>
+    <style>
+        :root {
+            --primary-color: #61dafb;
+            --secondary-color: #282c34;
+            --text-color: #333;
+            --light-bg: #f5f8fa;
+            --code-bg: #f1f1f1;
+            --border-color: #e1e4e8;
+            --accent-color: #5d36c9;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent-color);
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .concept {
+            background-color: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--light-bg);
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        
+        .highlight {
+            background-color: rgba(97, 218, 251, 0.1);
+            padding: 2px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .divider {
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        
+        .comparison-item h5 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .before-after {
+            background-color: var(--light-bg);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .before-after h5 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .install-command {
+            background-color: #282c34;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+        }
+        
+        .feature-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: var(--light-bg);
+            position: relative;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .experimental {
+            background-color: #ffe1e1;
+            border-left: 4px solid #ff5252;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .experimental h5 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+        
+        .library-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .library-card h5 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .vs-container {
+            position: relative;
+            padding: 20px 0;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .vs-container::before {
+            content: 'VS';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .vs-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 1px dashed var(--border-color);
+            z-index: 1;
+        }
+        
+        /* Navigation styles */
+        .navigation {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+        
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .nav-item.active::after {
+            content: '✓';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>React Development Guide</h1>
+        <p>A comprehensive guide to learning and mastering React</p>
+    </header>
+
+    <div class="navigation">
+        <h3>Guide Navigation</h3>
+        <div class="nav-container">
+            <a href="react-basics.html" class="nav-item">
+                Level 1: React Basics
+            </a>
+            <a href="react-intermediate.html" class="nav-item">
+                Level 2: Intermediate React
+            </a>
+            <a href="react-advanced.html" class="nav-item">
+                Level 3: Advanced React
+            </a>
+            <a href="react-ecosystem.html" class="nav-item active">
+                Level 4: React Ecosystem
+            </a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Level 4: React Ecosystem and Tools</h2>
+        
+        <p>
+            The React ecosystem extends far beyond the core library, offering a rich collection of tools, libraries, and patterns that enhance the development experience and help you build more powerful applications. This guide explores essential tools and libraries that form the backbone of modern React development.
+        </p>
+
+        <div class="divider"></div>
+        
+        <h3>1. API Fetching and Data Management</h3>
+        
+        <div class="concept">
+            <h4>What is API Fetching in React?</h4>
+            <p>
+                API fetching refers to the process of requesting and retrieving data from external sources (APIs) in React applications. Effective data fetching and state management are critical for building responsive and data-driven React applications.
+            </p>
+        </div>
+
+        <h4>Native Fetch API</h4>
+        <p>
+            The browser's built-in Fetch API provides a straightforward way to make HTTP requests. It's commonly used with the <code>useEffect</code> hook for handling data fetching in functional components.
+        </p>
+
+        <pre><code>import { useState, useEffect } from 'react';
+
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://api.example.com/users');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setUsers(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}</code></pre>
+
+        <h4>React Query</h4>
+        <p>
+            React Query is a powerful data fetching and caching library that simplifies server state management in React applications. It provides hooks for fetching, caching, and updating asynchronous data.
+        </p>
+
+        <div class="feature-card">
+            <h5>Key Features of React Query</h5>
+            <ul>
+                <li><strong>Automatic Caching:</strong> Caches query results and provides automatic refetching strategies</li>
+                <li><strong>Background Updates:</strong> Updates data in the background while showing the user cached (stale) data</li>
+                <li><strong>Pagination & Infinite Scrolling:</strong> Built-in support for advanced data fetching patterns</li>
+                <li><strong>Prefetching:</strong> Load data before it's needed to improve perceived performance</li>
+                <li><strong>Mutations:</strong> Simplified API for updating server state</li>
+                <li><strong>Query Invalidation:</strong> Declarative control over cache invalidation</li>
+            </ul>
+        </div>
+
+        <div class="install-command">
+            npm install @tanstack/react-query
+        </div>
+
+        <pre><code>import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+
+// Create a client
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <Users />
+    </QueryClientProvider>
+  );
+}
+
+function Users() {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await fetch('https://api.example.com/users');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <ul>
+      {data.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}</code></pre>
+
+        <h4>SWR (Stale-While-Revalidate)</h4>
+        <p>
+            SWR is a React hooks library for data fetching. The name "SWR" is derived from the caching strategy stale-while-revalidate. SWR first returns the data from cache (stale), then sends a fetch request (revalidate), and finally returns the up-to-date data.
+        </p>
+
+        <div class="install-command">
+            npm install swr
+        </div>
+
+        <pre><code>import useSWR from 'swr';
+
+// Define a fetcher function
+const fetcher = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
+};
+
+function Profile() {
+  const { data, error, isLoading } = useSWR('https://api.example.com/profile', fetcher);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.bio}</p>
+    </div>
+  );
+}</code></pre>
+
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>React Query</h5>
+                <ul>
+                    <li>More feature-rich for complex applications</li>
+                    <li>Built-in devtools</li>
+                    <li>Comprehensive query management</li>
+                    <li>Great for large applications with complex data requirements</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h5>SWR</h5>
+                <ul>
+                    <li>Lighter weight and simpler API</li>
+                    <li>Focus on fast, lightweight data fetching</li>
+                    <li>Perfect for smaller applications</li>
+                    <li>Created and maintained by Vercel</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <h5>Best Practices for API Fetching</h5>
+            <ol>
+                <li><strong>Error Handling:</strong> Always implement robust error handling for network requests</li>
+                <li><strong>Loading States:</strong> Provide clear loading indicators for better user experience</li>
+                <li><strong>Caching:</strong> Implement caching to avoid unnecessary requests</li>
+                <li><strong>Pagination:</strong> Use pagination for large datasets to improve performance</li>
+                <li><strong>Optimistic Updates:</strong> Update UI optimistically before API confirmation for a more responsive feel</li>
+                <li><strong>Retry Logic:</strong> Implement retry mechanisms for handling temporary network failures</li>
+            </ol>
+        </div>
+        
+        <div class="divider"></div>
+
+        <h2>Level 5: Professional React Development</h2>
+        
+        <p>
+            Professional React development involves mastering advanced techniques and tools that ensure your applications are robust, maintainable, and production-ready. This section covers essential practices for building professional-grade React applications.
+        </p>
+
+        <div class="divider"></div>
+        
+        <h3>1. Testing React Applications</h3>
+        
+        <p>
+            Testing is a critical aspect of professional React development. It helps catch bugs early, ensures code quality, and provides confidence when refactoring or adding new features. React's ecosystem offers robust testing tools that make it easier to write and maintain tests.
+        </p>
+
+        <h4>Unit Testing with Jest</h4>
+
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> Unit testing is the process of testing individual units/components of your codebase in isolation to ensure that each part works correctly. Jest is a JavaScript testing framework built by Facebook, designed specifically for React apps.
+            </p>
+        </div>
+
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li>Catches bugs early in the development process</li>
+            <li>Helps ensure refactoring doesn't break functionality</li>
+            <li>Essential for building robust, maintainable, and scalable applications</li>
+            <li>Provides documentation for how components should behave</li>
+        </ul>
+
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <ul>
+            <li>Write small test cases targeting single functions/components</li>
+            <li>Mock dependencies where necessary to isolate the unit being tested</li>
+            <li>Expect specific outputs given certain inputs using Jest's assertion library</li>
+            <li>Run tests automatically during development or in CI/CD pipelines</li>
+        </ul>
+
+        <div class="install-command">
+            npm install --save-dev jest
+        </div>
+
+        <p><strong>Simple Function and Jest Test Example:</strong></p>
+
+        <div class="feature-card">
+            <h5>add.js</h5>
+            <pre><code>export function add(a, b) { 
+  return a + b; 
+}</code></pre>
+        </div>
+
+        <div class="feature-card">
+            <h5>add.test.js</h5>
+            <pre><code>import { add } from './add'; 
+  
+test('adds 2 + 3 to equal 5', () => { 
+  expect(add(2, 3)).toBe(5); 
+});</code></pre>
+        </div>
+
+        <p>
+            Jest provides a comprehensive set of matchers for assertions:
+        </p>
+
+        <pre><code>// Common Jest matchers
+test('test equality', () => {
+  expect(2 + 2).toBe(4);               // Exact equality
+  expect({ name: 'John' }).toEqual({ name: 'John' }); // Deep equality
+  expect([1, 2, 3]).toContain(2);      // Array contains
+  expect('Hello World').toMatch(/World/); // Regex match
+  expect(() => throwError()).toThrow(); // Function throws
+});</code></pre>
+
+        <h4>Component Testing with React Testing Library (RTL)</h4>
+
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> React Testing Library (RTL) focuses on testing components from the user's perspective — interacting with the DOM instead of testing internal React structure. It encourages testing behavior rather than implementation details.
+            </p>
+        </div>
+
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li>Encourages testing behavior, not implementation details</li>
+            <li>Creates more realistic and maintainable tests</li>
+            <li>Helps simulate real-world usage (clicks, typing, form filling)</li>
+            <li>Tests remain valid even after refactoring internal component structure</li>
+        </ul>
+
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <ul>
+            <li>Render the component with <code>render()</code></li>
+            <li>Query elements the way users do (getByText, getByRole, getByLabelText, etc.)</li>
+            <li>Fire events (click, input, submit) and assert outcomes</li>
+            <li>Focus on testing what the user sees and interacts with</li>
+        </ul>
+
+        <div class="install-command">
+            npm install --save-dev @testing-library/react @testing-library/jest-dom
+        </div>
+
+        <p><strong>Button Component Test Example:</strong></p>
+
+        <div class="feature-card">
+            <h5>Button.jsx</h5>
+            <pre><code>function Button({ label, onClick }) {
+  return (
+    &lt;button onClick={onClick}&gt;
+      {label}
+    &lt;/button&gt;
+  );
+}
+
+export default Button;</code></pre>
+        </div>
+
+        <div class="feature-card">
+            <h5>Button.test.jsx</h5>
+            <pre><code>import { render, screen, fireEvent } from '@testing-library/react'; 
+import Button from './Button'; 
+  
+test('calls onClick when button is clicked', () => { 
+  const handleClick = jest.fn(); 
+  render(&lt;Button label="Click Me" onClick={handleClick} /&gt;); 
+   
+  fireEvent.click(screen.getByText(/click me/i)); 
+   
+  expect(handleClick).toHaveBeenCalledTimes(1); 
+});</code></pre>
+        </div>
+
+        <p><strong>Form Component Test Example:</strong></p>
+
+        <div class="feature-card">
+            <h5>Form.test.jsx</h5>
+            <pre><code>import { render, screen, fireEvent } from '@testing-library/react';
+import Form from './Form';
+
+test('submits the form with user input', () => {
+  const handleSubmit = jest.fn();
+  render(&lt;Form onSubmit={handleSubmit} /&gt;);
+  
+  // Fill out the form
+  fireEvent.change(screen.getByLabelText(/username/i), {
+    target: { value: 'testuser' }
+  });
+  
+  fireEvent.change(screen.getByLabelText(/password/i), {
+    target: { value: 'password123' }
+  });
+  
+  // Submit the form
+  fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+  
+  // Assert the onSubmit was called with correct data
+  expect(handleSubmit).toHaveBeenCalledWith({
+    username: 'testuser',
+    password: 'password123'
+  });
+});</code></pre>
+        </div>
+
+        <div class="note">
+            <h5>RTL Queries Priority</h5>
+            <p>React Testing Library recommends using queries in this order of preference:</p>
+            <ol>
+                <li><code>getByRole</code> - Most preferred, accessible way to query elements</li>
+                <li><code>getByLabelText</code> - Good for form fields</li>
+                <li><code>getByPlaceholderText</code> - Less ideal but useful for some inputs</li>
+                <li><code>getByText</code> - Good for buttons and displayed content</li>
+                <li><code>getByDisplayValue</code> - Current value in a form control</li>
+                <li><code>getByAltText</code> - For images</li>
+                <li><code>getByTitle</code> - Less common but useful in some cases</li>
+                <li><code>getByTestId</code> - Last resort when no semantic queries work</li>
+            </ol>
+        </div>
+
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>Jest</h5>
+                <ul>
+                    <li>JavaScript test runner</li>
+                    <li>Provides the test framework (test, expect, etc.)</li>
+                    <li>Handles assertions, mocks, and spies</li>
+                    <li>Used for all types of JavaScript testing</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h5>React Testing Library</h5>
+                <ul>
+                    <li>Provides utilities for testing React components</li>
+                    <li>Focuses on testing from the user's perspective</li>
+                    <li>Encourages testing behavior over implementation</li>
+                    <li>Works with Jest but is specifically for React components</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4>Integration Testing</h4>
+
+        <p>
+            Integration testing verifies that multiple units work together correctly. In React, this often means testing how components interact with each other or with external services.
+        </p>
+
+        <pre><code>import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import TodoApp from './TodoApp';
+
+test('adds a new todo item', async () => {
+  render(&lt;TodoApp /&gt;);
+  const user = userEvent.setup();
+  
+  // Initial state check
+  expect(screen.queryByText(/buy milk/i)).not.toBeInTheDocument();
+  
+  // Add new todo
+  await user.type(screen.getByPlaceholderText(/add todo/i), 'Buy milk');
+  await user.click(screen.getByRole('button', { name: /add/i }));
+  
+  // Check if todo was added
+  expect(screen.getByText(/buy milk/i)).toBeInTheDocument();
+});</code></pre>
+
+        <h4>Snapshot Testing</h4>
+
+        <p>
+            Snapshot testing captures a component's rendered output and compares it against a stored reference version to detect unintended changes in the UI.
+        </p>
+
+        <pre><code>import { render } from '@testing-library/react';
+import Profile from './Profile';
+
+test('Profile component matches snapshot', () => {
+  const { container } = render(
+    &lt;Profile user={{ name: 'John', avatar: 'john.jpg' }} /&gt;
+  );
+  expect(container).toMatchSnapshot();
+});</code></pre>
+
+        <h4>Test Coverage</h4>
+
+        <p>
+            Jest includes code coverage reporting to help identify untested parts of your codebase.
+        </p>
+
+        <div class="install-command">
+            npm test -- --coverage
+        </div>
+
+        <p>
+            This will generate a report showing the percentage of code covered by tests, helping you identify areas that need more testing.
+        </p>
+
+        <div class="note">
+            <h5>Best Practices for React Testing</h5>
+            <ol>
+                <li><strong>Test Behavior, Not Implementation:</strong> Focus on what the component does, not how it does it</li>
+                <li><strong>Keep Tests Simple:</strong> Each test should verify one specific behavior</li>
+                <li><strong>Use Data Attributes Sparingly:</strong> Prefer accessible queries over test-specific attributes</li>
+                <li><strong>Mock External Dependencies:</strong> Isolate the component from external services or APIs</li>
+                <li><strong>Run Tests in CI/CD:</strong> Automate testing as part of your deployment pipeline</li>
+                <li><strong>Aim for Good Coverage:</strong> But prioritize testing critical paths over 100% coverage</li>
+            </ol>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3>2. Real-Time Communication with Socket.io</h3>
+        
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> Socket.io is a JavaScript library that enables real-time, bi-directional communication between client (browser) and server. It uses WebSockets (and fallback technologies) to allow instant data exchange without needing to refresh the page.
+            </p>
+        </div>
+        
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li>Enables real-time features like chat applications, live notifications, live dashboards, collaboration tools, etc.</li>
+            <li>Makes applications more interactive and responsive</li>
+            <li>Improves user experience by reducing waiting time (no need to refresh manually)</li>
+            <li>Used in popular applications like WhatsApp, Instagram Live Notifications, Stock Market Tickers</li>
+        </ul>
+        
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <div class="concept">
+            <p>
+                Normally in web apps, the client has to request new data (polling). With Socket.io, the server can push data instantly to clients whenever something changes!
+            </p>
+            <ul>
+                <li>Client (React app) opens a connection to the server (Node.js typically)</li>
+                <li>They stay connected via a WebSocket</li>
+                <li>Either side can emit or listen to custom events (like 'message', 'newUser', 'notification', etc.)</li>
+            </ul>
+            <p>
+                Think of it like a private phone line open between your browser and the server 📞
+            </p>
+        </div>
+        
+        <div class="install-command">
+            # Server-side
+            npm install express socket.io
+            
+            # Client-side (React)
+            npm install socket.io-client
+        </div>
+        
+        <h4>Implementation Example</h4>
+        
+        <div class="feature-card">
+            <h5>Server-side (Node.js + Express + Socket.io)</h5>
+            <pre><code>const express = require('express'); 
+const http = require('http'); 
+const socketIO = require('socket.io'); 
+  
+const app = express(); 
+const server = http.createServer(app); 
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3000", // Your React app URL
+    methods: ["GET", "POST"]
+  }
+}); 
+  
+// Listen for connection 
+io.on('connection', (socket) => { 
+  console.log('User connected'); 
+  
+  // Listen for a custom event 
+  socket.on('sendMessage', (message) => { 
+    console.log('Received message:', message); 
+  
+    // Broadcast message to all clients 
+    io.emit('receiveMessage', message); 
+  }); 
+  
+  // On disconnect 
+  socket.on('disconnect', () => { 
+    console.log('User disconnected'); 
+  }); 
+}); 
+  
+server.listen(4000, () => console.log('Server running on port 4000'));</code></pre>
+        </div>
+        
+        <div class="feature-card">
+            <h5>Client-side (React + Socket.io-client)</h5>
+            <pre><code>import { useEffect, useState } from 'react'; 
+import io from 'socket.io-client'; 
+  
+function ChatApp() { 
+  const [socket, setSocket] = useState(null);
+  const [message, setMessage] = useState(''); 
+  const [chat, setChat] = useState([]); 
+  
+  // Initialize socket connection
+  useEffect(() => {
+    const newSocket = io('http://localhost:4000');
+    setSocket(newSocket);
+    
+    // Clean up the socket connection on component unmount
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+  
+  // Set up event listeners
+  useEffect(() => {
+    if (!socket) return;
+    
+    socket.on('receiveMessage', (msg) => { 
+      setChat((prevChat) => [...prevChat, msg]); 
+    });
+    
+    // Clean up event listener
+    return () => {
+      socket.off('receiveMessage');
+    };
+  }, [socket]); 
+  
+  const sendMessage = () => {
+    if (!socket || !message.trim()) return;
+     
+    socket.emit('sendMessage', message); 
+    setMessage(''); 
+  }; 
+  
+  return ( 
+    <div className="chat-container"> 
+      <h1>Real-Time Chat</h1>
+      
+      <div className="chat-messages">
+        {chat.map((msg, index) => ( 
+          <p key={index} className="message">{msg}</p> 
+        ))} 
+      </div>
+      
+      <div className="message-input">
+        <input 
+          value={message} 
+          onChange={(e) => setMessage(e.target.value)} 
+          placeholder="Type a message..." 
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+        /> 
+        <button onClick={sendMessage}>Send</button>
+      </div>
+    </div> 
+  ); 
+} 
+  
+export default ChatApp;</code></pre>
+        </div>
+        
+        <h4>Advanced Socket.io Features</h4>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>Rooms</h5>
+                <p>Rooms allow grouping clients for targeted broadcasting</p>
+                <pre><code>// Server
+io.on('connection', (socket) => {
+  socket.on('joinRoom', (room) => {
+    socket.join(room);
+  });
+
+  socket.on('sendToRoom', ({ room, message }) => {
+    io.to(room).emit('message', message);
+  });
+});</code></pre>
+            </div>
+            
+            <div class="comparison-item">
+                <h5>Namespaces</h5>
+                <p>Separate communication channels that share the same connection</p>
+                <pre><code>// Server
+const chatNamespace = io.of('/chat');
+chatNamespace.on('connection', (socket) => {
+  // Chat logic here
+});
+
+// Client
+const chatSocket = io('http://localhost:4000/chat');</code></pre>
+            </div>
+        </div>
+        
+        <h4>Real-World Use Cases</h4>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Use Case</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chat Application</td>
+                        <td>Users send and receive messages in real-time</td>
+                    </tr>
+                    <tr>
+                        <td>Live Notifications</td>
+                        <td>Instant alerts for new likes, comments, or mentions</td>
+                    </tr>
+                    <tr>
+                        <td>Collaborative Editing</td>
+                        <td>Multiple users editing the same document simultaneously</td>
+                    </tr>
+                    <tr>
+                        <td>Live Dashboards</td>
+                        <td>Real-time updates of analytics, metrics, and data visualizations</td>
+                    </tr>
+                    <tr>
+                        <td>Multiplayer Games</td>
+                        <td>Real-time game state synchronization between players</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="note">
+            <h5>Best Practices for Socket.io in React</h5>
+            <ol>
+                <li><strong>Use Refs or Custom Hooks:</strong> Manage socket instances with useRef or custom hooks to prevent unnecessary reconnections</li>
+                <li><strong>Clean Up Connections:</strong> Always disconnect sockets in useEffect cleanup functions</li>
+                <li><strong>Error Handling:</strong> Implement reconnection logic and handle connection errors</li>
+                <li><strong>Optimize Event Listeners:</strong> Add and remove event listeners carefully to avoid memory leaks</li>
+                <li><strong>Consider Authentication:</strong> Secure your socket connections with authentication tokens</li>
+                <li><strong>Use Room-Based Communication:</strong> For multi-user features, organize users into rooms for efficient messaging</li>
+            </ol>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3>3. Payment Integration (Stripe / Razorpay)</h3>
+        
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> Payment integration means connecting your React app to a payment gateway like Stripe or Razorpay to securely accept online payments from users (credit/debit cards, UPI, net banking, wallets, etc.).
+            </p>
+            <ul>
+                <li><strong>Stripe:</strong> A global, developer-friendly platform for online payments.</li>
+                <li><strong>Razorpay:</strong> Popular in India, supports UPI, wallets, cards, EMI, etc.</li>
+            </ul>
+        </div>
+        
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li><strong>Enables E-commerce:</strong> You can sell products, services, subscriptions</li>
+            <li><strong>Secure Transactions:</strong> Payment gateways handle encryption, fraud detection</li>
+            <li><strong>Boosts Trust:</strong> Customers trust professional payment experiences</li>
+            <li><strong>Real Projects Need It:</strong> Almost all production-grade apps (SaaS, eCommerce, EdTech) require smooth payment workflows</li>
+        </ul>
+        
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <div class="concept">
+            <p>Payment processing typically follows this flow:</p>
+            <ol>
+                <li>Your React frontend collects payment details securely</li>
+                <li>It sends them (or a token) to the payment gateway (Stripe/Razorpay)</li>
+                <li>Gateway processes payment and sends success/failure status</li>
+                <li>You show confirmation to the user and update your database/order</li>
+            </ol>
+            <p>
+                Think of it like you (React App) → Secure Vault (Stripe Server) → Bank → Payment Success 🔒💳✅
+            </p>
+            <p class="highlight">
+                <strong>Important:</strong> Never directly handle sensitive card details in your backend or frontend — use gateway-provided secure methods (Stripe Elements, Razorpay Checkout).
+            </p>
+        </div>
+        
+        <h4>Stripe Integration</h4>
+        
+        <div class="install-command">
+            npm install @stripe/stripe-js @stripe/react-stripe-js
+        </div>
+        
+        <div class="feature-card">
+            <h5>Basic Stripe Setup</h5>
+            <pre><code>// App.js
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './CheckoutForm';
+
+// Load Stripe outside of component to avoid recreating Stripe object on renders
+const stripePromise = loadStripe('pk_test_XXXXXXXXXXXXXXXXXXXX');
+
+function App() {
+  return (
+    &lt;div className="App"&gt;
+      &lt;h1&gt;Stripe Checkout&lt;/h1&gt;
+      &lt;Elements stripe={stripePromise}&gt;
+        &lt;CheckoutForm /&gt;
+      &lt;/Elements&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+        </div>
+        
+        <div class="feature-card">
+            <h5>Checkout Form Component</h5>
+            <pre><code>// CheckoutForm.js
+import { useState } from 'react';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+function CheckoutForm() {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  
+  const stripe = useStripe();
+  const elements = useElements();
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet
+      return;
+    }
+    
+    setIsProcessing(true);
+    
+    // Create a payment method using the Card Element
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: elements.getElement(CardElement),
+    });
+    
+    if (error) {
+      setPaymentStatus(`Payment failed: ${error.message}`);
+      setIsProcessing(false);
+      return;
+    }
+    
+    // Send payment method ID to your server
+    try {
+      const response = await fetch('/api/process-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          payment_method_id: paymentMethod.id,
+          amount: 1999, // $19.99 in cents
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setPaymentStatus('Payment successful!');
+      } else {
+        setPaymentStatus(`Payment failed: ${data.error}`);
+      }
+    } catch (err) {
+      setPaymentStatus('There was an error processing your payment');
+    }
+    
+    setIsProcessing(false);
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div className="form-row"&gt;
+        &lt;label&gt;
+          Card details
+          &lt;CardElement 
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#424770',
+                  '::placeholder': {
+                    color: '#aab7c4',
+                  },
+                },
+                invalid: {
+                  color: '#9e2146',
+                },
+              },
+            }}
+          /&gt;
+        &lt;/label&gt;
+      &lt;/div&gt;
+      
+      {paymentStatus && &lt;div className="payment-status"&gt;{paymentStatus}&lt;/div&gt;}
+      
+      &lt;button 
+        type="submit" 
+        disabled={!stripe || isProcessing}
+      &gt;
+        {isProcessing ? 'Processing...' : 'Pay Now'}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+export default CheckoutForm;</code></pre>
+        </div>
+        
+        <h4>Razorpay Integration</h4>
+        
+        <div class="install-command">
+            npm install razorpay
+        </div>
+        
+        <div class="feature-card">
+            <h5>Razorpay Payment Button</h5>
+            <pre><code>import { useEffect } from 'react';
+
+function RazorpayButton() {
+  const loadRazorpay = () => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    
+    script.onload = () => {
+      const options = {
+        key: 'rzp_test_XXXXXXXXXXXXXXXX', // Razorpay API Key
+        amount: 50000, // Amount in paise (₹500)
+        currency: 'INR',
+        name: 'My Shop',
+        description: 'Test Transaction',
+        image: 'https://your-logo-url.png',
+        
+        handler: function (response) {
+          alert(`Payment ID: ${response.razorpay_payment_id}`);
+          
+          // You would typically verify this payment on your server
+          verifyPayment(response);
+        },
+        
+        prefill: {
+          name: 'Customer Name',
+          email: 'customer@example.com',
+          contact: '9999999999'
+        },
+        
+        notes: {
+          address: 'Customer Address'
+        },
+        
+        theme: {
+          color: '#3399cc'
+        }
+      };
+      
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    };
+    
+    document.body.appendChild(script);
+  };
+  
+  const verifyPayment = async (paymentData) => {
+    try {
+      // Send the payment data to your server for verification
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paymentData)
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Payment successfully verified
+        console.log('Payment verified successfully');
+      } else {
+        // Payment verification failed
+        console.error('Payment verification failed');
+      }
+    } catch (error) {
+      console.error('Error verifying payment:', error);
+    }
+  };
+  
+  return (
+    &lt;button 
+      onClick={loadRazorpay}
+      className="razorpay-button"
+    &gt;
+      Pay with Razorpay
+    &lt;/button&gt;
+  );
+}
+
+export default RazorpayButton;</code></pre>
+        </div>
+        
+        <h4>Security Considerations</h4>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Security Aspect</th>
+                        <th>Implementation Approach</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Handling Card Details</td>
+                        <td>Never store sensitive card details. Use tokenization provided by the payment gateway.</td>
+                    </tr>
+                    <tr>
+                        <td>API Keys</td>
+                        <td>Keep publishable keys in frontend, secret keys only on server. Use environment variables.</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Verification</td>
+                        <td>Always verify payment success on your backend before fulfilling orders.</td>
+                    </tr>
+                    <tr>
+                        <td>HTTPS</td>
+                        <td>Always use HTTPS for any page that involves payment processing.</td>
+                    </tr>
+                    <tr>
+                        <td>Webhooks</td>
+                        <td>Implement webhooks to receive notifications about payment events.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>Stripe</h5>
+                <ul>
+                    <li>Global reach with support for 135+ currencies</li>
+                    <li>Comprehensive developer documentation</li>
+                    <li>Pre-built UI components (Elements)</li>
+                    <li>Higher processing fees in some regions</li>
+                    <li>Extensive fraud protection</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h5>Razorpay</h5>
+                <ul>
+                    <li>Popular in India with local payment methods (UPI, wallets)</li>
+                    <li>Lower processing fees for Indian merchants</li>
+                    <li>Simple integration with checkout.js</li>
+                    <li>Limited international payment options</li>
+                    <li>Good documentation for Indian payment flows</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="note">
+            <h5>Best Practices for Payment Integration</h5>
+            <ol>
+                <li><strong>Test Thoroughly:</strong> Use test/sandbox mode before going live</li>
+                <li><strong>Error Handling:</strong> Provide clear feedback when payments fail</li>
+                <li><strong>Responsive Design:</strong> Ensure payment forms work well on all devices</li>
+                <li><strong>Loading States:</strong> Show progress indicators during payment processing</li>
+                <li><strong>Order Confirmation:</strong> Always show receipt/confirmation after successful payment</li>
+                <li><strong>Idempotency:</strong> Implement idempotency keys to prevent duplicate charges</li>
+            </ol>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3>4. Introduction to Next.js for SSR (Server-Side Rendering)</h3>
+        
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> Next.js is a React framework that enables server-side rendering (SSR), static site generation (SSG), and full-stack capabilities like API routes, file-based routing, and more — all built on top of React.
+            </p>
+        </div>
+        
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li><strong>SEO-friendly:</strong> HTML is rendered on the server, making content visible to search engines</li>
+            <li><strong>Faster Initial Load:</strong> Users see content quicker compared to client-side only apps</li>
+            <li><strong>Full-stack Capabilities:</strong> Build frontend and backend in one project</li>
+            <li><strong>Optimized Performance:</strong> Automatic code splitting, image optimization, and caching</li>
+        </ul>
+        <p>In short, Next.js = React + SSR + SSG + Backend 🎯</p>
+        
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <div class="concept">
+            <p>
+                In traditional React apps, the browser (client) downloads JavaScript, runs it, and generates the UI. In Next.js, pages can be rendered on the server first, so the browser gets fully formed HTML immediately — improving speed and SEO.
+            </p>
+            <p><strong>Two main rendering methods:</strong></p>
+            <ul>
+                <li><strong>Server-Side Rendering (SSR):</strong> Page generated on each request</li>
+                <li><strong>Static Site Generation (SSG):</strong> Page pre-built at build time</li>
+            </ul>
+            <p><strong>Routing:</strong></p>
+            <p>Next.js uses a file-based routing system. Each file inside the /pages folder becomes a route automatically.</p>
+        </div>
+        
+        <div class="install-command">
+            npx create-next-app my-next-app
+            cd my-next-app
+            npm run dev
+        </div>
+        
+        <h4>Basic Next.js Page Structure</h4>
+        
+        <div class="feature-card">
+            <h5>pages/index.js - Basic Page</h5>
+            <pre><code>// pages/index.js
+export default function Home() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome to Next.js!&lt;/h1&gt;
+      &lt;p&gt;This is a statically rendered page.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+        
+        <h4>Server-Side Rendering Example</h4>
+        
+        <div class="feature-card">
+            <h5>pages/ssr-example.js - getServerSideProps</h5>
+            <pre><code>// pages/ssr-example.js
+export default function SSRPage({ data }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Server-Side Rendered Page&lt;/h1&gt;
+      &lt;p&gt;Data from server: {data.message}&lt;/p&gt;
+      &lt;p&gt;Generated at: {data.time}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// This function runs on every request on the server
+export async function getServerSideProps() {
+  // Fetch data from an external API, database, etc.
+  const data = {
+    message: "Hello from Server!",
+    time: new Date().toISOString(),
+  };
+
+  // Pass data to the page via props
+  return {
+    props: { data },
+  };
+}</code></pre>
+        </div>
+        
+        <h4>Static Site Generation Example</h4>
+        
+        <div class="feature-card">
+            <h5>pages/ssg-example.js - getStaticProps</h5>
+            <pre><code>// pages/ssg-example.js
+export default function SSGPage({ data }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Static Site Generated Page&lt;/h1&gt;
+      &lt;p&gt;Pre-rendered data: {data.message}&lt;/p&gt;
+      &lt;p&gt;Built at: {data.time}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// This function runs at build time in production
+export async function getStaticProps() {
+  // Fetch data from an external API, database, etc.
+  const data = {
+    message: "Hello from Static Generation!",
+    time: new Date().toISOString(),
+  };
+
+  return {
+    props: { data },
+    // Optional: Revalidate the page after a certain amount of time (in seconds)
+    // This enables Incremental Static Regeneration (ISR)
+    revalidate: 60, // Regenerate page after 60 seconds if requested
+  };
+}</code></pre>
+        </div>
+        
+        <h4>Dynamic Routes Example</h4>
+        
+        <div class="feature-card">
+            <h5>pages/posts/[id].js - Dynamic Routing</h5>
+            <pre><code>// pages/posts/[id].js
+export default function Post({ post }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{post.title}&lt;/h1&gt;
+      &lt;p&gt;{post.content}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// This function defines which paths will be pre-rendered at build time
+export async function getStaticPaths() {
+  // Fetch the list of post IDs from an API
+  const posts = await fetchPostIds(); // This would be your actual data-fetching function
+  
+  // Generate the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { id: post.id.toString() },
+  }));
+  
+  return {
+    paths,
+    fallback: 'blocking', // Can also be false or true
+  };
+}
+
+// This function gets called at build time to generate static pages
+export async function getStaticProps({ params }) {
+  // Fetch post data based on the ID
+  const post = await fetchPostById(params.id); // This would be your actual data-fetching function
+  
+  return {
+    props: { post },
+    revalidate: 60, // Regenerate page after 60 seconds if requested
+  };
+}
+
+// Mock functions for the example
+async function fetchPostIds() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+}
+
+async function fetchPostById(id) {
+  return {
+    id,
+    title: `Post ${id}`,
+    content: `This is the content of post ${id}.`,
+  };
+}</code></pre>
+        </div>
+        
+        <h4>API Routes Example</h4>
+        
+        <div class="feature-card">
+            <h5>pages/api/hello.js - API Route</h5>
+            <pre><code>// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ 
+    message: 'Hello from Next.js API Route!',
+    method: req.method,
+    timestamp: new Date().toISOString()
+  });
+}</code></pre>
+        </div>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>Client-Side Rendering (React)</h5>
+                <ul>
+                    <li>Renders in the browser</li>
+                    <li>Blank page until JavaScript loads</li>
+                    <li>SEO challenges for content</li>
+                    <li>Fast subsequent navigation</li>
+                    <li>Lower server load</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h5>Server-Side Rendering (Next.js)</h5>
+                <ul>
+                    <li>Renders on the server</li>
+                    <li>Immediate content visibility</li>
+                    <li>Better SEO performance</li>
+                    <li>Potentially slower navigation</li>
+                    <li>Higher server load</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h4>Key Next.js Features</h4>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>File-based Routing</td>
+                        <td>Routes based on file structure in the pages directory</td>
+                    </tr>
+                    <tr>
+                        <td>API Routes</td>
+                        <td>Built-in serverless API endpoints in /pages/api</td>
+                    </tr>
+                    <tr>
+                        <td>Image Optimization</td>
+                        <td>Automatic image optimization with the next/image component</td>
+                    </tr>
+                    <tr>
+                        <td>Automatic Code Splitting</td>
+                        <td>Loads only the necessary JavaScript for each page</td>
+                    </tr>
+                    <tr>
+                        <td>CSS/Sass Support</td>
+                        <td>Built-in CSS and Sass support with scoped styles</td>
+                    </tr>
+                    <tr>
+                        <td>Fast Refresh</td>
+                        <td>Instant feedback during development</td>
+                    </tr>
+                    <tr>
+                        <td>Internationalization</td>
+                        <td>Built-in i18n routing and language detection</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="note">
+            <h5>When to Choose Next.js</h5>
+            <ul>
+                <li>Your application needs good SEO performance</li>
+                <li>You want faster initial page loads</li>
+                <li>You need server-side processing capabilities</li>
+                <li>You're building a content-heavy website or e-commerce platform</li>
+                <li>You want to simplify your architecture with a single framework for both front and back-end</li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3>5. Environment Variables and Configuration Management</h3>
+        
+        <div class="concept">
+            <p>
+                <strong>Definition:</strong> Environment variables allow you to store sensitive information (like API keys, URLs, secrets) outside your code in different environments (development, staging, production).
+            </p>
+        </div>
+        
+        <p>
+            <strong>Why It's Important:</strong>
+        </p>
+        <ul>
+            <li><strong>Security:</strong> Keeps sensitive data out of your source code and version control</li>
+            <li><strong>Environment-specific Config:</strong> Different settings for dev/staging/production</li>
+            <li><strong>Deployment Flexibility:</strong> Easy to change configuration without modifying code</li>
+            <li><strong>Scalability:</strong> Makes your app portable across different hosting environments</li>
+        </ul>
+        
+        <p>
+            <strong>How it Works:</strong>
+        </p>
+        <div class="concept">
+            <p>
+                You create .env files (e.g., .env.local, .env.production) at the root of your project. These files contain key-value pairs that define your environment variables. In a React app, you access these values using <code>process.env.REACT_APP_VARIABLE_NAME</code>.
+            </p>
+            <p>
+                <strong>React restricts environment variables to only those prefixed with REACT_APP_ for security reasons.</strong> This is to prevent accidental exposure of server-side secrets.
+            </p>
+            <p>
+                Think of .env files like settings for different rooms in the same hotel: each environment = different room settings.
+            </p>
+        </div>
+        
+        <h4>Setting Up Environment Variables in Create React App</h4>
+        
+        <div class="feature-card">
+            <h5>.env File Structure</h5>
+            <pre><code># .env.development
+REACT_APP_API_URL=https://dev-api.example.com
+REACT_APP_STRIPE_PUBLIC_KEY=pk_test_xxx
+REACT_APP_DEBUG_MODE=true
+
+# .env.production
+REACT_APP_API_URL=https://api.example.com
+REACT_APP_STRIPE_PUBLIC_KEY=pk_live_xxx
+REACT_APP_DEBUG_MODE=false</code></pre>
+        </div>
+        
+        <div class="feature-card">
+            <h5>Using Environment Variables in Code</h5>
+            <pre><code>// API service
+const API_URL = process.env.REACT_APP_API_URL;
+
+// Component using an API key
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+
+// Conditional rendering based on environment
+function DebugInfo() {
+  if (process.env.REACT_APP_DEBUG_MODE === 'true') {
+    return &lt;div className="debug-panel"&gt;Debug Information&lt;/div&gt;;
+  }
+  return null;
+}</code></pre>
+        </div>
+        
+        <h4>Environment Variables in Next.js</h4>
+        
+        <p>Next.js has a slightly different approach to environment variables, offering more flexibility:</p>
+        
+        <div class="feature-card">
+            <h5>Next.js .env Files</h5>
+            <pre><code># .env (all environments)
+NEXT_PUBLIC_ANALYTICS_ID=abcdefg
+
+# .env.local (local environment, not committed to git)
+DATABASE_URL=mysql://user:password@localhost:3306/mydb
+
+# .env.development (development environment)
+NEXT_PUBLIC_API_URL=https://dev-api.example.com
+
+# .env.production (production environment)
+NEXT_PUBLIC_API_URL=https://api.example.com</code></pre>
+        </div>
+        
+        <div class="feature-card">
+            <h5>Accessing Environment Variables in Next.js</h5>
+            <pre><code>// Client-side: Only variables prefixed with NEXT_PUBLIC_ are available
+console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID);
+
+// Server-side: All variables are available in getServerSideProps, API routes, etc.
+export async function getServerSideProps() {
+  // This won't be exposed to the browser
+  console.log(process.env.DATABASE_URL);
+  
+  // This will be available client-side
+  console.log(process.env.NEXT_PUBLIC_API_URL);
+  
+  return { props: {} };
+}</code></pre>
+        </div>
+        
+        <h4>Runtime Environment Variables in Docker</h4>
+        
+        <div class="feature-card">
+            <h5>Docker Environment Configuration</h5>
+            <pre><code># Dockerfile
+FROM node:16-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+
+# docker-compose.yml
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=https://api.example.com
+      - REACT_APP_FEATURE_FLAG_ENABLE_NEW_UI=true</code></pre>
+        </div>
+        
+        <h4>Using Environment Variables with Different Build Tools</h4>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h5>Create React App</h5>
+                <ul>
+                    <li>Variables must be prefixed with <code>REACT_APP_</code></li>
+                    <li>Automatically loaded from .env files</li>
+                    <li>Embedded at build time</li>
+                    <li>Needs re-build to change values</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h5>Vite</h5>
+                <ul>
+                    <li>Variables must be prefixed with <code>VITE_</code></li>
+                    <li>Supports .env.local, .env.[mode] files</li>
+                    <li>Access with <code>import.meta.env.VITE_VARIABLE</code></li>
+                    <li>Better HMR support for env changes</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h4>Advanced Configuration Management</h4>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Runtime Configuration</td>
+                        <td>Load config at runtime with a config endpoint</td>
+                        <td>Changing config without redeployment</td>
+                    </tr>
+                    <tr>
+                        <td>Feature Flags</td>
+                        <td>Toggle features on/off via environment variables</td>
+                        <td>A/B testing, gradual rollouts</td>
+                    </tr>
+                    <tr>
+                        <td>Configuration Files</td>
+                        <td>Separate JSON/YAML config files for different environments</td>
+                        <td>Complex configuration objects</td>
+                    </tr>
+                    <tr>
+                        <td>Secret Management</td>
+                        <td>Dedicated services like AWS Secrets Manager, Vault</td>
+                        <td>Highly sensitive credentials</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="feature-card">
+            <h5>Runtime Configuration Pattern</h5>
+            <pre><code>// public/config.json (can be different per environment)
+{
+  "apiUrl": "https://api.example.com",
+  "theme": "light",
+  "features": {
+    "newDashboard": true,
+    "betaFeatures": false
+  }
+}
+
+// ConfigProvider.js
+import { createContext, useState, useEffect, useContext } from 'react';
+
+const ConfigContext = createContext(null);
+
+export function ConfigProvider({ children }) {
+  const [config, setConfig] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch('/config.json')
+      .then(res => res.json())
+      .then(data => {
+        setConfig(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load config:', err);
+        setLoading(false);
+      });
+  }, []);
+  
+  if (loading) return &lt;div&gt;Loading configuration...&lt;/div&gt;;
+  
+  return (
+    &lt;ConfigContext.Provider value={config}&gt;
+      {children}
+    &lt;/ConfigContext.Provider&gt;
+  );
+}
+
+export const useConfig = () => useContext(ConfigContext);</code></pre>
+        </div>
+        
+        <div class="note">
+            <h5>Best Practices for Environment Variables</h5>
+            <ol>
+                <li><strong>Never commit .env files</strong> containing secrets to version control (add them to .gitignore)</li>
+                <li><strong>Document required variables</strong> in a .env.example file with dummy values</li>
+                <li><strong>Validate environment variables</strong> at startup to catch missing configs early</li>
+                <li><strong>Use type-safe configs</strong> with validation libraries like Zod or Joi</li>
+                <li><strong>Provide meaningful defaults</strong> when environment variables are missing</li>
+                <li><strong>Set up CI/CD pipelines</strong> to inject the right variables for each environment</li>
+            </ol>
+        </div>
+        
+        <!-- More sections will be added below -->
+    </div>
+</body>
+</html> 

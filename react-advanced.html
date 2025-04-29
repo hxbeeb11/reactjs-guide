@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Development Guide</title>
+    <style>
+        :root {
+            --primary-color: #61dafb;
+            --secondary-color: #282c34;
+            --text-color: #333;
+            --light-bg: #f5f8fa;
+            --code-bg: #f1f1f1;
+            --border-color: #e1e4e8;
+            --accent-color: #5d36c9;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent-color);
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .concept {
+            background-color: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--light-bg);
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        
+        .highlight {
+            background-color: rgba(97, 218, 251, 0.1);
+            padding: 2px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .divider {
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        
+        .comparison-item h5 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .before-after {
+            background-color: var(--light-bg);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .before-after h5 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .install-command {
+            background-color: #282c34;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+        }
+        
+        .feature-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: var(--light-bg);
+            position: relative;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .experimental {
+            background-color: #ffe1e1;
+            border-left: 4px solid #ff5252;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .experimental h5 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+        
+        /* Navigation styles */
+        .navigation {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+        
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .nav-item.active::after {
+            content: '✓';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>React Development Guide</h1>
+        <p>A comprehensive guide to learning and mastering React</p>
+    </header>
+
+    <div class="navigation">
+        <h3>Guide Navigation</h3>
+        <div class="nav-container">
+            <a href="react-basics.html" class="nav-item">
+                Level 1: React Basics
+            </a>
+            <a href="react-intermediate.html" class="nav-item">
+                Level 2: Intermediate React
+            </a>
+            <a href="react-advanced.html" class="nav-item active">
+                Level 3: Advanced React
+            </a>
+            <a href="react-ecosystem.html" class="nav-item">
+                Level 4: React Ecosystem
+            </a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Level 3: Advanced React</h2>
+        
+        <div class="section">
+            <h3>1. Building and Using Custom Hooks</h3>
+            
+            <h4>What is it?</h4>
+            <p>A custom hook in React is a JavaScript function that starts with "use" and allows you to extract and reuse logic across components. Custom hooks help to manage state and side effects in a cleaner, more reusable way.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>Custom hooks improve code readability and reusability. Instead of duplicating code for similar logic in multiple components, you can create a custom hook and reuse it wherever needed.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>You can create a custom hook to encapsulate reusable logic. Inside the hook, you can use React hooks like useState, useEffect, or useContext. Then, you can return any state or function that components can use.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <div class="feature-card">
+                <h5>useCounter.js (Custom Hook)</h5>
+                <pre><code>import { useState } from 'react';
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+  const reset = () => setCount(initialValue);
+
+  return { count, increment, decrement, reset };
+}
+
+export default useCounter;</code></pre>
+            </div>
+            
+            <div class="feature-card">
+                <h5>App.js</h5>
+                <pre><code>import React from 'react';
+import useCounter from './useCounter';
+
+function App() {
+  const { count, increment, decrement, reset } = useCounter(10);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+      &lt;button onClick={decrement}&gt;Decrement&lt;/button&gt;
+      &lt;button onClick={reset}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>2. Complex State Management with useReducer</h3>
+            
+            <h4>What is it?</h4>
+            <p>useReducer is a React hook used for managing complex state in components. It is an alternative to useState for managing state that involves multiple sub-values or requires complex transitions.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>When dealing with complex state logic or when state changes are interconnected, useReducer provides a more structured and predictable way to manage state compared to useState.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>It works by defining a reducer function, similar to Redux, which receives the current state and an action. Based on the action type, it returns the new state.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>// Counter.js
+import React, { useReducer } from 'react';
+
+const initialState = { count: 0 };
+
+function counterReducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    case 'reset':
+      return { count: 0 };
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(counterReducer, initialState);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {state.count}&lt;/p&gt;
+      &lt;button onClick={() => dispatch({ type: 'increment' })}&gt;Increment&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'decrement' })}&gt;Decrement&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'reset' })}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Counter;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>3. Advanced Context API Patterns (Provider-Consumer)</h3>
+            
+            <h4>What is it?</h4>
+            <p>The Context API allows you to pass data through the component tree without having to manually pass props down at every level. It consists of a Provider (to provide the value) and Consumer (to consume the value).</p>
+            
+            <h4>Why it is important?</h4>
+            <p>It helps to avoid "prop drilling" — passing props from parent components down to deeply nested children components. The Context API enables sharing state across multiple components without the need for props.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>You create a context using createContext, wrap your app or component tree with a Provider, and use useContext in any child component to consume the context.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <div class="feature-card">
+                <h5>ThemeContext.js</h5>
+                <pre><code>import React, { createContext, useState, useContext } from 'react';
+
+const ThemeContext = createContext();
+
+export const useTheme = () => useContext(ThemeContext);
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    &lt;ThemeContext.Provider value={{ theme, toggleTheme }}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}</code></pre>
+            </div>
+            
+            <div class="feature-card">
+                <h5>App.js</h5>
+                <pre><code>import React from 'react';
+import { ThemeProvider, useTheme } from './ThemeContext';
+
+function ThemedComponent() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Current theme: {theme}&lt;/p&gt;
+      &lt;button onClick={toggleTheme}&gt;Toggle Theme&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ThemeProvider&gt;
+      &lt;ThemedComponent /&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+
+export default App;</code></pre>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>4. Performance Optimization</h3>
+            
+            <h4>What is it?</h4>
+            <p>Performance optimization techniques in React are used to reduce unnecessary renders and improve the app's speed.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>Unnecessary re-renders can lead to poor performance, especially in large applications. Optimizing renders ensures a smooth user experience.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>React provides hooks and components like React.memo, useMemo, and useCallback to help prevent unnecessary re-renders by memorizing values or functions that haven't changed.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h5>React.memo:</h5>
+                    <pre><code>import React from 'react';
+
+const MyComponent = React.memo(({ value }) => {
+  console.log('Rendering:', value);
+  return &lt;div&gt;{value}&lt;/div&gt;;
+});
+
+export default MyComponent;</code></pre>
+                    <p>React.memo will prevent re-renders if the value prop hasn't changed.</p>
+                </div>
+                
+                <div class="comparison-item">
+                    <h5>useMemo:</h5>
+                    <pre><code>import React, { useMemo } from 'react';
+
+function App() {
+  const number = 5;
+  const computedValue = useMemo(() => number * 2, [number]);
+
+  return &lt;div&gt;Computed Value: {computedValue}&lt;/div&gt;;
+}
+
+export default App;</code></pre>
+                    <p>useMemo memoizes the result of the computation, preventing unnecessary calculations.</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h5>useCallback:</h5>
+                <pre><code>import React, { useState, useCallback } from 'react';
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const increment = useCallback(() => setCount(count + 1), [count]);
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+                <p>useCallback ensures the increment function is not recreated on every render.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>5. Code Splitting and Lazy Loading</h3>
+            
+            <h4>What is it?</h4>
+            <p>Code splitting is a technique to split your code into smaller bundles that can be loaded on demand. Lazy loading helps load parts of the app only when they are needed.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>It improves performance by reducing the initial load time of the app.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>React provides React.lazy and Suspense to lazily load components. React.lazy dynamically imports the component, and Suspense handles the loading state.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import React, { Suspense, lazy } from 'react';
+
+// Lazy loading the component
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;React App&lt;/h1&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;LazyComponent /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>6. Error Boundaries</h3>
+            
+            <h4>What is it?</h4>
+            <p>Error boundaries are components that catch JavaScript errors anywhere in the component tree and display a fallback UI instead of crashing the app.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>Error boundaries prevent the entire application from crashing due to errors in a single component, ensuring a better user experience.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>You define an error boundary by creating a component that implements componentDidCatch or static getDerivedStateFromError.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import React from 'react';
+
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.log(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+    }
+
+    return this.props.children;
+  }
+}
+
+function App() {
+  return (
+    &lt;ErrorBoundary&gt;
+      &lt;div&gt;App Content&lt;/div&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+export default App;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>7. React Portals (Creating Modals)</h3>
+            
+            <h4>What is it?</h4>
+            <p>React Portals allow you to render children into a DOM node that exists outside the parent component hierarchy. It's useful for creating modals or overlays.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>Portals provide a way to manage elements like modals that need to be rendered outside the regular component tree while still maintaining React's rendering logic.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>You can use ReactDOM.createPortal to render content into a different part of the DOM.</p>
+            </div>
+            
+            <div class="note">
+                <p>For Portals to work, you need to add a container element in your HTML file (like <code>&lt;div id="modal-root"&gt;&lt;/div&gt;</code>) where the content will be rendered.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import React from 'react';
+import ReactDOM from 'react-dom';
+
+function Modal() {
+  return ReactDOM.createPortal(
+    &lt;div className="modal"&gt;This is a modal!&lt;/div&gt;,
+    document.getElementById('modal-root') // Modal will be rendered here
+  );
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;React App&lt;/h1&gt;
+      &lt;Modal /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>8. Suspense for Data Fetching (React 18+)</h3>
+            
+            <h4>What is it?</h4>
+            <p>Suspense is a feature in React that allows you to pause rendering while waiting for some asynchronous data to load (e.g., fetching data from an API).</p>
+            
+            <h4>Why it is important?</h4>
+            <p>It simplifies data fetching in React, allowing the app to show loading indicators without manually managing loading state.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>You can use Suspense with React.lazy or async data fetching to suspend rendering until the required data is available.</p>
+            </div>
+            
+            <h4>Code Example:</h4>
+            <pre><code>import React, { Suspense } from 'react';
+
+// Assuming you have a lazy-loaded component
+const DataFetchingComponent = lazy(() => fetchData());
+
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+      &lt;DataFetchingComponent /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+export default App;</code></pre>
+        </div>
+        
+        <div class="section">
+            <h3>9. React Server Components (RSC Basics)</h3>
+            
+            <h4>What is it?</h4>
+            <p>React Server Components (RSC) is an experimental feature in React that allows you to render components on the server instead of the client. This reduces the amount of JavaScript needed on the client side.</p>
+            
+            <h4>Why it is important?</h4>
+            <p>It improves the performance of React applications by sending less JavaScript to the client and improving initial load times.</p>
+            
+            <h4>How it works?</h4>
+            <div class="concept">
+                <p>Server Components are rendered on the server, and only the necessary data and UI are sent to the client.</p>
+            </div>
+            
+            <div class="experimental">
+                <h5>Experimental Feature</h5>
+                <p>React Server Components are still in development and not yet recommended for production use. The API may change in future releases.</p>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+    </div>
+</body>
+</html> 
